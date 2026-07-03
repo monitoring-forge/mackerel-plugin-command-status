@@ -20,8 +20,8 @@ type opts struct {
 	OptCommand string
 	Timeout    time.Duration `long:"timeout" default:"30s" description:"Timeout to wait for command finished"`
 	Name       string        `short:"n" long:"name" description:"Metrics name" required:"true"`
-	Quiet      bool `short:"q" long:"quiet" description:"Suppress error output of sub command"`
-	Version    bool `short:"v" long:"version" description:"Show version"`
+	Quiet      bool          `short:"q" long:"quiet" description:"Suppress error output of sub command"`
+	Version    bool          `short:"v" long:"version" description:"Show version"`
 }
 
 func runCmd(opts opts) int {
