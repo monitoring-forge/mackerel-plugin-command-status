@@ -34,8 +34,13 @@ func (opt *Opt) cmd() (int, time.Duration) {
 	start := time.Now()
 	cmd := exec.Command(opt.Command, opt.Args...)
 	cmd.Stdout = os.Stderr
-	cmd.Start()
-	done := make(chan error)
+	if err := cmd.Start(); err != nil {
+		if !opt.Quiet {
+			log.Printf("Command %s exit with err: %v", opt.Command, err)
+		}
+		return UnknownCommandStatus, time.Since(start)
+	}
+	done := make(chan error, 1)
 	go func() { done <- cmd.Wait() }()
 	ctx, cancel := context.WithTimeout(context.Background(), opt.Timeout)
 	defer cancel()

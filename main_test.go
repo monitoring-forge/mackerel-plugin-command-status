@@ -43,3 +43,16 @@ func TestCmdUnknownCommand(t *testing.T) {
 		t.Fatalf("Expected non-zero exit code for unknown command, got %d", status)
 	}
 }
+
+func TestCmdTimeout(t *testing.T) {
+	opt := Opt{
+		Command: "sleep",
+		Args:    []string{"10"},
+		Timeout: 100 * time.Millisecond,
+	}
+
+	status, _ := opt.cmd()
+	if status != TimeoutStatus {
+		t.Fatalf("Expected timeout status %d, got %d", TimeoutStatus, status)
+	}
+}
