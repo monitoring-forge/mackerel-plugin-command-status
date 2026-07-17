@@ -1,4 +1,4 @@
-module github.com/kazeburo/mackerel-plugin-command-status
+module github.com/monitoring-forge/mackerel-plugin-command-status
 
 go 1.25.0
 
