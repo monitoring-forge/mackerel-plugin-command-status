@@ -1,5 +1,6 @@
 VERSION=0.0.4
-LDFLAGS=-ldflags "-w -s -X main.version=${VERSION} "
+GITCOMMIT?=$(shell git describe --dirty --always)
+LDFLAGS=-ldflags "-w -s -X main.version=${VERSION} -X main.commit=${GITCOMMIT}"
 
 all: mackerel-plugin-command-status
 
@@ -12,12 +13,4 @@ linux: main.go
 	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o mackerel-plugin-command-status main.go
 
 check:
-	go test ./...
-
-fmt:
-	go fmt ./...
-
-tag:
-	git tag v${VERSION}
-	git push origin v${VERSION}
-	git push origin master
+	go test -v ./...

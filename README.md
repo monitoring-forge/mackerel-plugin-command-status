@@ -56,4 +56,4 @@ and set a monitor with `warning(critical)  > 0` and `maxCheckAttempts` appropria
 
 ## Install
 
-Please download release page or `mkr plugin install kazeburo/mackerel-plugin-command-status`.
+Please download release page or `mkr plugin install monitoring-forge/mackerel-plugin-command-status`.
