@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.5](https://github.com/monitoring-forge/mackerel-plugin-command-status/compare/v0.0.4...v0.0.5) - 2026-07-17
+
+- transfer repo and fixed unknown command status bug and improve test by @kazeburo in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/14
+
 ## [v0.0.4](https://github.com/kazeburo/mackerel-plugin-command-status/compare/v0.0.3...v0.0.4) - 2026-07-11
 
 - pin actions commithash by @kazeburo in https://github.com/kazeburo/mackerel-plugin-command-status/pull/8
