@@ -79,7 +79,7 @@ func (opt *Opt) run() int {
 	status, duration := opt.cmd()
 	fmt.Printf("command-status.time-taken.%s\t%f\t%d\n", opt.Name, duration.Seconds(), now)
 	fmt.Printf("command-status.exit-code.%s\t%d\t%d\n", opt.Name, status, now)
-	return 0
+	return OK
 }
 
 func main() {
@@ -103,17 +103,17 @@ func _main() int {
 			runtime.GOARCH,
 			runtime.Version(),
 			commit)
-		os.Exit(OK)
+		return OK
 	} else if flags.WroteHelp(err) {
 		fmt.Fprintf(os.Stdout, "%v\n", err)
-		os.Exit(OK)
+		return OK
 	} else if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(UNKNOWN)
+		return UNKNOWN
 	} else if len(args) == 0 {
 		fmt.Fprintf(os.Stderr, "command is required\n")
 		psr.WriteHelp(os.Stderr)
-		os.Exit(UNKNOWN)
+		return UNKNOWN
 	}
 
 	opt.Command = args[0]
