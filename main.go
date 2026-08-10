@@ -17,6 +17,13 @@ var version string
 var commit string
 
 const (
+	OK = iota
+	WARNING
+	CRITICAL
+	UNKNOWN
+)
+
+const (
 	TimeoutStatus        = 137
 	UnknownCommandStatus = 127
 )
@@ -30,14 +37,18 @@ type Opt struct {
 	Version bool          `short:"v" long:"version" description:"Show version"`
 }
 
+func (opt *Opt) QuietLogf(format string, v ...any) {
+	if !opt.Quiet {
+		log.Printf(format, v...)
+	}
+}
+
 func (opt *Opt) cmd() (int, time.Duration) {
 	start := time.Now()
 	cmd := exec.Command(opt.Command, opt.Args...)
 	cmd.Stdout = os.Stderr
 	if err := cmd.Start(); err != nil {
-		if !opt.Quiet {
-			log.Printf("Command %s exit with err: %v", opt.Command, err)
-		}
+		opt.QuietLogf("Command %s start failed: %v", opt.Command, err)
 		return UnknownCommandStatus, time.Since(start)
 	}
 	done := make(chan error, 1)
@@ -47,16 +58,12 @@ func (opt *Opt) cmd() (int, time.Duration) {
 	var status int
 	select {
 	case <-ctx.Done():
-		cmd.Process.Kill()
-		if !opt.Quiet {
-			log.Printf("Command %s timeout. killed", opt.Command)
-		}
+		_ = cmd.Process.Kill()
+		opt.QuietLogf("Command %s timeout. killed", opt.Command)
 		status = TimeoutStatus
 	case err := <-done:
 		if err != nil {
-			if !opt.Quiet {
-				log.Printf("Command %s exit with err: %v", opt.Command, err)
-			}
+			opt.QuietLogf("Command %s exit with err: %v", opt.Command, err)
 		}
 		status = cmd.ProcessState.ExitCode()
 	}
@@ -82,7 +89,7 @@ func main() {
 func _main() int {
 	opt := &Opt{}
 	psr := flags.NewParser(opt, flags.HelpFlag|flags.PassDoubleDash)
-	psr.Usage = "mackerel-plugin-command-status [OPTIONS] -- command args1 args2 ..."
+	psr.Usage = "[OPTIONS] -- command args1 args2"
 	args, err := psr.Parse()
 	if opt.Version {
 		if commit == "" {
@@ -96,16 +103,19 @@ func _main() int {
 			runtime.GOARCH,
 			runtime.Version(),
 			commit)
-		return 0
-	}
-	if err != nil {
+		os.Exit(OK)
+	} else if flags.WroteHelp(err) {
+		fmt.Fprintf(os.Stdout, "%v\n", err)
+		os.Exit(OK)
+	} else if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
-		return 1
-	}
-	if len(args) == 0 {
+		os.Exit(UNKNOWN)
+	} else if len(args) == 0 {
+		fmt.Fprintf(os.Stderr, "command is required\n")
 		psr.WriteHelp(os.Stderr)
-		return 1
+		os.Exit(UNKNOWN)
 	}
+
 	opt.Command = args[0]
 	if len(args) > 1 {
 		opt.Args = args[1:]
