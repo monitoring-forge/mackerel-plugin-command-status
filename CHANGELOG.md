@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.0.6](https://github.com/monitoring-forge/mackerel-plugin-command-status/compare/v0.0.5...v0.0.6) - 2026-08-10
+
+- ci: bump the dependencies group with 3 updates by @dependabot[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/16
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/17
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/19
+- refactor: improve Makefile targets and enhance logging in main.go by @kazeburo in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/20
+- docs: improve README for clarity and usage examples by @kazeburo in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/21
+
 ## [v0.0.5](https://github.com/monitoring-forge/mackerel-plugin-command-status/compare/v0.0.4...v0.0.5) - 2026-07-17
 
 - transfer repo and fixed unknown command status bug and improve test by @kazeburo in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/14
