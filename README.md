@@ -22,7 +22,7 @@ Mackerel カスタムプラグイン。指定したコマンドを実行し、�
 | `127` | コマンドの起動に失敗した場合（存在しないコマンドなど） |
 | `137` | タイムアウトにより `SIGKILL` された場合（`9 + 128`） |
 
-> **注意**: コマンドがシグナルで終了した場合、ExitCode は `-signal` の値になるため、本プラグインは `127` に正規化して出力します。
+> **注意**: コマンドがシグナルで終了した場合、ExitCode は `-1` の値になるため、本プラグインは `127` に正規化して出力します。
 
 ## 使い方
 
@@ -84,19 +84,11 @@ command-status.exit-code.sleep   137       1614308642
 
 ## Mackerel への設定
 
-`mackerel-agent.conf` にプラグインの設定を追加し、cron などで定期的に実行するようにします。
-
 ### mackerel-agent.conf
 
 ```ini
 [plugin.metrics.update-cache]
 command = "/path/to/mackerel-plugin-command-status --name update-cache --timeout 10s -- /path/to/cmd-fetch-cache"
-```
-
-### cron 設定例
-
-```cron
-*/5 * * * * /path/to/mackerel-plugin-command-status --name update-cache --timeout 10s -- /path/to/cmd-fetch-cache >> /var/log/mackerel-command-status.log 2>&1
 ```
 
 ### Monitor（監視ルール）の設定
