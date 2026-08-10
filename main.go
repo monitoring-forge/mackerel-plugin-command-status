@@ -89,7 +89,7 @@ func main() {
 func _main() int {
 	opt := &Opt{}
 	psr := flags.NewParser(opt, flags.HelpFlag|flags.PassDoubleDash)
-	psr.Usage = "[OPTIONS] -- command args1 args2"
+	psr.Usage = "[OPTIONS] -- command [args...]"
 	args, err := psr.Parse()
 	if opt.Version {
 		if commit == "" {
