@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.0.7](https://github.com/monitoring-forge/mackerel-plugin-command-status/compare/v0.0.6...v0.0.7) - 2026-10-03
+
+- ci: bump the-pr-agent/pr-agent from 0.41.1 to 0.42.0 in the dependencies group by @dependabot[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/22
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/24
+- chore: update Go version to 1.26.0 and clean up Makefile; refactor ma… by @kazeburo in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/30
+- ci: bump Songmu/tagpr from 1.20.1 to 1.20.2 in the dependencies group by @dependabot[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/27
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/29
+
 ## [v0.0.6](https://github.com/monitoring-forge/mackerel-plugin-command-status/compare/v0.0.5...v0.0.6) - 2026-08-10
 
 - ci: bump the dependencies group with 3 updates by @dependabot[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/16
