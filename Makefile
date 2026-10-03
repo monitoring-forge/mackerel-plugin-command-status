@@ -1,6 +1,5 @@
 VERSION=0.0.6
-GITCOMMIT?=$(shell git describe --dirty --always)
-LDFLAGS=-ldflags "-w -s -X main.version=${VERSION} -X main.commit=${GITCOMMIT}"
+LDFLAGS=-ldflags "-w -s -X main.version=${VERSION}"
 
 all: mackerel-plugin-command-status
 
