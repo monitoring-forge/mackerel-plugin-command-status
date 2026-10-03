@@ -1,27 +1,18 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
-	"path/filepath"
-	"runtime"
 	"time"
 
-	"github.com/jessevdk/go-flags"
+	"github.com/monitoring-forge/flagrun"
 )
 
 var version string
-var commit string
-
-const (
-	OK = iota
-	WARNING
-	CRITICAL
-	UNKNOWN
-)
 
 const (
 	TimeoutStatus        = 137
@@ -74,52 +65,27 @@ func (opt *Opt) cmd() (int, time.Duration) {
 	return status, duration
 }
 
-func (opt *Opt) run() int {
+func (opt *Opt) Run(_ []string) (any, int) {
 	now := time.Now().Unix()
 	status, duration := opt.cmd()
-	fmt.Printf("command-status.time-taken.%s\t%f\t%d\n", opt.Name, duration.Seconds(), now)
-	fmt.Printf("command-status.exit-code.%s\t%d\t%d\n", opt.Name, status, now)
-	return OK
+	buf := &bytes.Buffer{}
+	fmt.Fprintf(buf, "command-status.time-taken.%s\t%f\t%d\n", opt.Name, duration.Seconds(), now)
+	fmt.Fprintf(buf, "command-status.exit-code.%s\t%d\t%d\n", opt.Name, status, now)
+	return buf.String(), flagrun.OK
 }
 
-func main() {
-	os.Exit(_main())
-}
-
-func _main() int {
-	opt := &Opt{}
-	psr := flags.NewParser(opt, flags.HelpFlag|flags.PassDoubleDash)
-	psr.Usage = "[OPTIONS] -- command [args...]"
-	args, err := psr.Parse()
-	if opt.Version {
-		if commit == "" {
-			commit = "dev"
-		}
-		fmt.Printf(
-			"%s-%s\n%s/%s, %s, %s\n",
-			filepath.Base(os.Args[0]),
-			version,
-			runtime.GOOS,
-			runtime.GOARCH,
-			runtime.Version(),
-			commit)
-		return OK
-	} else if flags.WroteHelp(err) {
-		fmt.Fprintf(os.Stdout, "%v\n", err)
-		return OK
-	} else if err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
-		return UNKNOWN
-	} else if len(args) == 0 {
-		fmt.Fprintf(os.Stderr, "command is required\n")
-		psr.WriteHelp(os.Stderr)
-		return UNKNOWN
+func (opt *Opt) Validate(args []string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("command is required")
 	}
-
 	opt.Command = args[0]
 	if len(args) > 1 {
 		opt.Args = args[1:]
 	}
+	return nil
+}
 
-	return opt.run()
+func main() {
+	opt := &Opt{}
+	os.Exit(flagrun.Go(opt, flagrun.Version(version), flagrun.ArgsRequired(), flagrun.Validator(opt.Validate)))
 }
