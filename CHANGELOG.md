@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.8](https://github.com/monitoring-forge/mackerel-plugin-command-status/compare/v0.0.7...v0.0.8) - 2026-10-09
+
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/31
+
 ## [v0.0.7](https://github.com/monitoring-forge/mackerel-plugin-command-status/compare/v0.0.6...v0.0.7) - 2026-10-03
 
 - ci: bump the-pr-agent/pr-agent from 0.41.1 to 0.42.0 in the dependencies group by @dependabot[bot] in https://github.com/monitoring-forge/mackerel-plugin-command-status/pull/22
