@@ -8,5 +8,5 @@ require github.com/mackerelio/checkers v0.2.1 // indirect
 
 require (
 	github.com/monitoring-forge/flagrun v0.0.10
-	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 )
